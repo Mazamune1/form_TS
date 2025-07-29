@@ -89,48 +89,40 @@
     <label for="car_no">เลขทะเบียนรถ:</label>
     <input id="car_no" name="car_no" list="car_no_list" type="text" required />
     <datalist id="car_no_list">
-      <!-- ใส่ option ตามเดิม -->
       <option value="กระบะ TOYOTA ถท-7967">
       <option value="กระบะ TOYOTA ฮว-7319">
       <option value="กระบะ TOYOTA ฮย-5493">
-      <!-- ...เพิ่มตามต้องการ -->
     </datalist>
 
     <label for="driver">คนขับรถ:</label>
     <input id="driver" name="driver" list="driver_list" type="text" required />
     <datalist id="driver_list">
-      <!-- ใส่ option ตามเดิม -->
       <option value="พิพัฒน์ พวงทอง">
       <option value="พรชัย พิระภาค">
       <option value="เจนภพ สีหานู">
-      <!-- ...เพิ่มตามต้องการ -->
     </datalist>
 
     <label for="start_station">สถานีต้นทาง:</label>
     <input id="start_station" name="start_station" list="start_station_list" type="text" required />
     <datalist id="start_station_list">
-      <!-- ใส่ option ตามเดิม -->
       <option value="โรงงานไทรน้อย">
       <option value="บ้านกลางเมือง">
       <option value="ดุสิต">
-      <!-- ...เพิ่มตามต้องการ -->
     </datalist>
 
     <label for="end_station">สถานีปลายทาง:</label>
     <input id="end_station" name="end_station" list="end_station_list" type="text" required />
     <datalist id="end_station_list">
-      <!-- ใส่ option ตามเดิม -->
       <option value="โรงงานไทรน้อย">
       <option value="บ้านกลางเมือง">
       <option value="ดุสิต">
-      <!-- ...เพิ่มตามต้องการ -->
     </datalist>
 
     <button type="submit">บันทึกข้อมูล</button>
   </form>
 
 <script>
-  // ใช้ URL proxy server บน Render จริง
+  // URL Proxy Server ที่คุณ deploy ไว้ (เช่น Render)
   const proxyUrl = 'https://form-ts.onrender.com';
 
   document.getElementById('form1').addEventListener('submit', async function (e) {
@@ -159,14 +151,7 @@
           data: data
         })
       });
-      const text = await res.text();
-let response;
-try {
-  response = JSON.parse(text);
-} catch (err) {
-  throw new Error("ไม่สามารถแปลงเป็น JSON ได้: " + text);
-}
-
+      const response = await res.json();
 
       if (response.status === 'success') {
         alert('บันทึกสำเร็จ! ไปยังหน้า 2');
@@ -184,7 +169,6 @@ try {
     }
   });
 </script>
-
 
 </body>
 </html>

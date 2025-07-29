@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>ฟอร์มบันทึกข้อมูลเดินรถ (ตอนที่ 2)</title>
   <style>
-    /* (ใส่ CSS ตามที่มีในของคุณ) */
+    /* ใส่ CSS ตามชอบ หรือใช้แบบเดียวกับ form1.html */
   </style>
 </head>
 <body>
@@ -31,7 +31,7 @@
 </form>
 
 <script>
-  const proxyUrl = 'https://form-ts.onrender.com';  // เปลี่ยนเป็น URL proxy server จริงบน Render
+  const proxyUrl = 'https://form-ts.onrender.com';  // URL Proxy Server ของคุณ
 
   let startMile = 0;
   let latestRow = 0;
@@ -71,18 +71,24 @@
 
     const formData = new FormData(this);
     const data = Object.fromEntries(formData.entries());
-    data.row = latestRow; // ให้เลขแถวตรงกับล่าสุด
+    data.row = latestRow; // เลขแถวล่าสุด
+
+    // เพิ่ม action ตามที่ Google Script ต้องการ
+    const payload = {
+      action: 'saveForm2',
+      data: data
+    };
 
     try {
       const res = await fetch(proxyUrl + '/update', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
+        body: JSON.stringify(payload)
       });
       const result = await res.json();
       if (result.status === 'success') {
         alert('บันทึกข้อมูลหน้า 2 สำเร็จ');
-        window.location.href = 'form1.html'; // หรือหน้าอื่นตามต้องการ
+        window.location.href = 'form1.html';
       } else {
         alert('เกิดข้อผิดพลาด: ' + (result.message || 'ไม่ทราบสาเหตุ'));
         button.disabled = false;
