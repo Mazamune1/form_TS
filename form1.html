@@ -159,7 +159,14 @@
           data: data
         })
       });
-      const response = await res.json();
+      const text = await res.text();
+let response;
+try {
+  response = JSON.parse(text);
+} catch (err) {
+  throw new Error("ไม่สามารถแปลงเป็น JSON ได้: " + text);
+}
+
 
       if (response.status === 'success') {
         alert('บันทึกสำเร็จ! ไปยังหน้า 2');
