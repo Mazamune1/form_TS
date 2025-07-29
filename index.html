@@ -23,28 +23,31 @@
   <p id="response"></p>
 
   <script>
-    const form = document.getElementById("drive-form");
+  document.querySelector("form").addEventListener("submit", function (e) {
+  e.preventDefault();
 
-    form.addEventListener("submit", function(e) {
-      e.preventDefault();
-      const formData = new FormData(form);
-      const data = Object.fromEntries(formData.entries());
+  const formData = new FormData(e.target);
+  const params = new URLSearchParams();
 
-      fetch("https://script.google.com/macros/s/AKfycbwHPc4rAFnK3MY_o5Y0yfwK22sg9VRce6ai46Cz4GQmaB17gtmBFTqv-PAEweJ5qpYDJQ/exec", {
-        method: "POST",
-        body: JSON.stringify(data),
-        headers: { "Content-Type": "application/json" }
-      })
-      .then(res => res.json())
-      .then(response => {
-        document.getElementById("response").textContent = "✅ บันทึกสำเร็จ";
-        form.reset();
-      })
-      .catch(error => {
-        document.getElementById("response").textContent = "❌ เกิดข้อผิดพลาด";
-        console.error(error);
-      });
+  for (const pair of formData.entries()) {
+    params.append(pair[0], pair[1]);
+  }
+
+  fetch("https://script.google.com/macros/s/AKfycbzQfTZcGQDWEWHzupJr9xXOv0NAUpngSjFQpoaM7hqJN50JNLWrN6SDH30mlpCyqQy-zw/exec", {
+    method: "POST",
+    body: params,
+    // **ไม่ต้องใส่ headers จะไม่ trigger preflight**
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      alert("ส่งข้อมูลสำเร็จ");
+    })
+    .catch((err) => {
+      console.error(err);
+      alert("เกิดข้อผิดพลาด");
     });
+});
+
   </script>
 </body>
 </html>
