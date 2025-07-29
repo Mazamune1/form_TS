@@ -10,7 +10,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // แทนที่ URL Google Apps Script ให้เป็น URL จริงของคุณ
-const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx5ax4uJ1E1t7LH7oBg2u_XAk19bh8OjqKkcVBoE17wbNzt8ndIgE0ICABxpuDwbasvbg/exec';
+const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx8ZpniVJ7ZWwqBVVv93gP5qSXHiEH5GPjh9MvXxqHTeofL4yQsGlQ02zUyMj1ocyhZUw/exec';
 
 // Proxy GET: ดึงข้อมูลแถวล่าสุดจาก Google Script
 app.get('/latest-row', async (req, res) => {
