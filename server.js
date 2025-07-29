@@ -6,32 +6,37 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbztRJue02XNJqUOCOPSC48-H8dt3vIO9rOLpvD458G6lzCkeaBcFyOYj05AfC49pLP-zQ/exec';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx5ax4uJ1E1t7LH7oBg2u_XAk19bh8OjqKkcVBoE17wbNzt8ndIgE0ICABxpuDwbasvbg/exec';
 
-// ส่งข้อมูลไปอัปเดตแถว
+// Proxy POST
 app.post('/update', async (req, res) => {
   try {
     const response = await axios.post(SCRIPT_URL, req.body, {
       headers: { 'Content-Type': 'application/json' }
     });
+    res.setHeader('Content-Type', 'application/json');
+    res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
+    res.setHeader('X-Content-Type-Options', 'nosniff');
     res.json(response.data);
   } catch (error) {
-    console.error('Error forwarding to Apps Script:', error.message);
     res.status(500).json({ error: 'Forwarding failed' });
   }
 });
 
-// อ่านแถวล่าสุด
+// Proxy GET
 app.get('/latest-row', async (req, res) => {
   try {
     const response = await axios.get(`${SCRIPT_URL}?action=latest`);
+    res.setHeader('Content-Type', 'application/json');
+    res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
+    res.setHeader('X-Content-Type-Options', 'nosniff');
     res.json(response.data);
   } catch (error) {
-    console.error('Error fetching latest row:', error.message);
     res.status(500).json({ error: 'Fetching latest row failed' });
   }
 });
 
-app.listen(process.env.PORT || 3000, () => {
-  console.log('Proxy server running');
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Proxy server listening on port ${PORT}`);
 });
