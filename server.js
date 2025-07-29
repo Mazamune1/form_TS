@@ -6,7 +6,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx8ZpniVJ7ZWwqBVVv93gP5qSXHiEH5GPjh9MvXxqHTeofL4yQsGlQ02zUyMj1ocyhZUw/exec';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby2xzhJlE18aSCDzkvGLQ2QeLcvou88837ZG7BPdonY2QYymK3vwt6Md6JNKCDBVyblIQ/exec';
 
 // ส่งข้อมูลไปอัปเดตแถว
 app.post('/update', async (req, res) => {
