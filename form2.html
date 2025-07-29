@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <title>ฟอร์มบันทึกข้อมูลเดินรถ (ตอนที่ 2)</title>
   <style>
     /* Reset เบื้องต้น */
@@ -117,7 +118,9 @@
   <label for="note">หมายเหตุ:</label>
   <textarea id="note" name="note" rows="4"></textarea>
 
-  <button type="submit">บันทึกข้อมูล</button>
+  <button type="submit" class="btn btn-primary">
+  <span class="spinner-border spinner-border-sm me-2 d-none" role="status"></span>บันทึกข้อมูล</button>
+
 </form>
 
 <script>
@@ -154,29 +157,47 @@
   });
 
   // ส่งข้อมูล form2 พร้อมแถวล่าสุด
-  document.getElementById('form2').addEventListener('submit', function(event) {
-    event.preventDefault();
-    const formData = new FormData(this);
-    const data = Object.fromEntries(formData.entries());
-    data.row = latestRow; // ใส่เลขแถวให้ตรง
+document.getElementById('form2').addEventListener('submit', function(event) {
+  event.preventDefault();
 
-    fetch('https://form-ts.onrender.com/update', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data)
-    })
-    .then(res => res.json())
-    .then(result => {
-      if(result.status === 'success'){
-        alert('บันทึกข้อมูลหน้า 2 สำเร็จ');
-        // กลับไปหน้า form1
-        window.location.href = 'form1.html';
-      } else {
-        alert('เกิดข้อผิดพลาด: ' + (result.message || 'ไม่ทราบสาเหตุ'));
-      }
-    })
-    .catch(err => alert('เกิดข้อผิดพลาดในการส่งข้อมูล: ' + err.message));
+  const button = this.querySelector('button');
+  const spinner = button.querySelector('.spinner-border');
+
+  button.disabled = true;
+  spinner.classList.remove('d-none'); // แสดง spinner
+  // เปลี่ยนข้อความที่อยู่ถัดจาก spinner
+  button.childNodes[1].textContent = "กำลังบันทึก...";
+
+  const formData = new FormData(this);
+  const data = Object.fromEntries(formData.entries());
+  data.row = latestRow;
+
+  fetch('https://form-ts.onrender.com/update', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data)
+  })
+  .then(res => res.json())
+  .then(result => {
+    if(result.status === 'success'){
+      alert('บันทึกข้อมูลหน้า 2 สำเร็จ');
+      window.location.href = 'form1.html';
+    } else {
+      alert('เกิดข้อผิดพลาด: ' + (result.message || 'ไม่ทราบสาเหตุ'));
+      button.disabled = false;
+      spinner.classList.add('d-none'); // ซ่อน spinner
+      button.childNodes[1].textContent = "บันทึกข้อมูล";
+    }
+  })
+  .catch(err => {
+    alert('เกิดข้อผิดพลาดในการส่งข้อมูล: ' + err.message);
+    button.disabled = false;
+    spinner.classList.add('d-none'); // ซ่อน spinner
+    button.childNodes[1].textContent = "บันทึกข้อมูล";
   });
+});
+
+
 
   // โหลดข้อมูลเริ่มต้น
   loadStartMile();

@@ -3,6 +3,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
   <title>ฟอร์มบันทึกการเดินรถ (หน้า 1)</title>
   <style>
     /* Reset เบื้องต้น */
@@ -195,42 +197,64 @@
     </datalist>
     
 
-    <button type="submit">บันทึกและไปหน้าต่อไป</button>
+<button type="submit" class="btn btn-primary">
+  <span class="spinner-border spinner-border-sm me-2 d-none" role="status"></span>บันทึกข้อมูล</button>
+
   </form>
 
 <script>
- document.getElementById('form1').addEventListener('submit', function(event) {
-  event.preventDefault();
-  const formData = new FormData(this);
-  const data = Object.fromEntries(formData.entries());
+document.getElementById("form1").addEventListener("submit", function (e) {
+  e.preventDefault();
 
-  fetch('https://form-ts.onrender.com/submit', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+  const button = document.querySelector("button");
+  const spinner = button.querySelector(".spinner-border");
+
+  button.disabled = true;
+  spinner.classList.remove("d-none"); // ✅ แสดง spinner
+  button.childNodes[1].textContent = "กำลังบันทึก..."; // ✅ แก้ข้อความถัดจาก spinner
+
+  const data = {
+    date: document.getElementById("date").value,
+    timeStart: document.getElementById("timeStart").value,
+    start_mile: document.getElementById("start_mile").value,
+    car_no: document.getElementById("car_no").value,
+    driver: document.getElementById("driver").value,
+    start_station: document.getElementById("start_station").value,
+    end_station: document.getElementById("end_station").value
+  };
+
+  fetch("https://script.google.com/macros/s/AKfycbx5ax4uJ1E1t7LH7oBg2u_XAk19bh8OjqKkcVBoE17wbNzt8ndIgE0ICABxpuDwbasvbg/exec", {
+    method: "POST",
     body: JSON.stringify({
-      action: 'saveForm1',   // ✅ เพิ่มบอกว่าเป็น form1
-      data: data             // ✅ ห่อไว้ใน key "data"
-    })
+      action: "saveForm1",
+      data: data
+    }),
+    headers: {
+      "Content-Type": "application/json"
+    }
   })
-    .then(res => res.text())  // แปลงเป็น text ก่อนเพื่อ debug
-    .then(text => {
-      try {
-        const result = JSON.parse(text);
-        if (result.status === 'success') {
-          localStorage.setItem('start_mile', data.start_mile);
-          alert('บันทึกข้อมูลเรียบร้อย กำลังไปหน้าถัดไป...');
-          window.location.href = 'form2.html';
-        } else {
-          alert('เกิดข้อผิดพลาด: ' + (result.message || 'ไม่ทราบสาเหตุ'));
-        }
-      } catch (err) {
-        alert('เกิดข้อผิดพลาดในการแปลง JSON: ' + text);
-      }
-    })
-    .catch(err => alert('เกิดข้อผิดพลาดในการส่งข้อมูล: ' + err.message));
+  .then(res => res.json())
+  .then(response => {
+    if (response.status === "success") {
+      alert("บันทึกสำเร็จ! ไปยังหน้า 2");
+      window.location.href = "form2.html?row=" + response.row;
+    } else {
+      alert("เกิดข้อผิดพลาด: " + response.message);
+      button.disabled = false;
+      spinner.classList.add("d-none");
+      button.childNodes[1].textContent = "บันทึกข้อมูล";
+    }
+  })
+  .catch(error => {
+    alert("Error: " + error);
+    button.disabled = false;
+    spinner.classList.add("d-none");
+    button.childNodes[1].textContent = "บันทึกข้อมูล";
+  });
 });
 
 </script>
+
 
 </body>
 </html>
