@@ -198,29 +198,30 @@
     <button type="submit">บันทึกและไปหน้าต่อไป</button>
   </form>
 
-  <script>
-    document.getElementById('form1').addEventListener('submit', function(event) {
-      event.preventDefault();
-      const formData = new FormData(this);
-      const data = Object.fromEntries(formData.entries());
+<script>
+  document.getElementById('form1').addEventListener('submit', function(event) {
+    event.preventDefault();
+    const formData = new FormData(this);
+    const data = Object.fromEntries(formData.entries());
 
-      fetch('http://localhost:3000/submit', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
+    fetch('https://form-ts.onrender.com/submit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    })
+      .then(res => res.json())
+      .then(result => {
+        if (result.status === 'success') {
+          localStorage.setItem('start_mile', data.start_mile);
+          alert('บันทึกข้อมูลเรียบร้อย กำลังไปหน้าถัดไป...');
+          window.location.href = 'form2.html';
+        } else {
+          alert('เกิดข้อผิดพลาด: ' + (result.message || 'ไม่ทราบสาเหตุ'));
+        }
       })
-        .then(res => res.json())
-        .then(result => {
-          if (result.status === 'success') {
-            localStorage.setItem('start_mile', data.start_mile);
-            alert('บันทึกข้อมูลเรียบร้อย กำลังไปหน้าถัดไป...');
-            window.location.href = 'form2.html';
-          } else {
-            alert('เกิดข้อผิดพลาด: ' + (result.message || 'ไม่ทราบสาเหตุ'));
-          }
-        })
-        .catch(err => alert('เกิดข้อผิดพลาดในการส่งข้อมูล: ' + err.message));
-    });
-  </script>
+      .catch(err => alert('เกิดข้อผิดพลาดในการส่งข้อมูล: ' + err.message));
+  });
+</script>
+
 </body>
 </html>

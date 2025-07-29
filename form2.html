@@ -127,7 +127,7 @@
   // ดึงแถวล่าสุดจาก proxy server
   async function fetchLatestRow() {
     try {
-      const res = await fetch('http://localhost:3000/latest-row');
+      const res = await fetch('https://form-ts.onrender.com/latest-row');
       const data = await res.json();
       if (data.status === 'success') {
         latestRow = data.row;
@@ -160,7 +160,7 @@
     const data = Object.fromEntries(formData.entries());
     data.row = latestRow; // ใส่เลขแถวให้ตรง
 
-    fetch('http://localhost:3000/update', {
+    fetch('https://form-ts.onrender.com/update', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data)
