@@ -199,18 +199,23 @@
   </form>
 
 <script>
-  document.getElementById('form1').addEventListener('submit', function(event) {
-    event.preventDefault();
-    const formData = new FormData(this);
-    const data = Object.fromEntries(formData.entries());
+ document.getElementById('form1').addEventListener('submit', function(event) {
+  event.preventDefault();
+  const formData = new FormData(this);
+  const data = Object.fromEntries(formData.entries());
 
-    fetch('https://form-ts.onrender.com/submit', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data)
+  fetch('https://form-ts.onrender.com/submit', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      action: 'saveForm1',   // ✅ เพิ่มบอกว่าเป็น form1
+      data: data             // ✅ ห่อไว้ใน key "data"
     })
-      .then(res => res.json())
-      .then(result => {
+  })
+    .then(res => res.text())  // แปลงเป็น text ก่อนเพื่อ debug
+    .then(text => {
+      try {
+        const result = JSON.parse(text);
         if (result.status === 'success') {
           localStorage.setItem('start_mile', data.start_mile);
           alert('บันทึกข้อมูลเรียบร้อย กำลังไปหน้าถัดไป...');
@@ -218,9 +223,13 @@
         } else {
           alert('เกิดข้อผิดพลาด: ' + (result.message || 'ไม่ทราบสาเหตุ'));
         }
-      })
-      .catch(err => alert('เกิดข้อผิดพลาดในการส่งข้อมูล: ' + err.message));
-  });
+      } catch (err) {
+        alert('เกิดข้อผิดพลาดในการแปลง JSON: ' + text);
+      }
+    })
+    .catch(err => alert('เกิดข้อผิดพลาดในการส่งข้อมูล: ' + err.message));
+});
+
 </script>
 
 </body>
