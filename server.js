@@ -10,25 +10,30 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Proxy endpoint
-app.post('/submit', async (req, res) => {
+app.get('/latest-row', async (req, res) => {
   try {
+    const response = await axios.get('https://script.google.com/macros/s/AKfycbxMQCJ36L-fgDZEp1jrYpWK0A0gbQQbbDIXBtRJs1W-FO1Fsk6GMvN_FviTTM8wtxpQaA/exec'); // หรือดึงจาก sheet โดยตรง
+    res.json({ status: 'success', row: response.data.row }); // ตัวอย่าง
+  } catch (error) {
+    res.status(500).json({ status: 'error', message: error.message });
+  }
+});
+
+app.post('/update', async (req, res) => {
+  try {
+    const payload = {
+      action: 'saveForm2',
+      data: req.body
+    };
+
     const response = await axios.post(
-      'https://script.google.com/macros/s/AKfycbysvJjX5oJtQ-r-53PHjRmN1zK4dqnrsjzXaveXkXcJDlhOVT-R10cMC4xzQpLUrm0-DQ/exec',
-      req.body,
-      {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      }
+      'URL_GOOGLE_SCRIPT_ENDPOINT',
+      payload,
+      { headers: { 'Content-Type': 'application/json' } }
     );
 
-    const data = typeof response.data === 'string'
-      ? JSON.parse(response.data)
-      : response.data;
-
-    res.status(200).json(data);
+    res.json(response.data);
   } catch (error) {
-    console.error('Proxy Error:', error.message);
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ status: 'error', message: error.message });
   }
 });
