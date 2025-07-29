@@ -3,92 +3,9 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-
   <title>ฟอร์มบันทึกการเดินรถ (หน้า 1)</title>
   <style>
-    /* Reset เบื้องต้น */
-    * {
-      box-sizing: border-box;
-    }
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      margin: 20px;
-      background: #f9f9f9;
-      color: #333;
-    }
-    h2 {
-      text-align: center;
-      margin-bottom: 24px;
-      color: #222;
-    }
-    form {
-      max-width: 480px;
-      margin: 0 auto;
-      background: white;
-      padding: 24px;
-      border-radius: 8px;
-      box-shadow: 0 4px 12px rgb(0 0 0 / 0.1);
-    }
-    label {
-      display: block;
-      font-weight: 600;
-      margin-bottom: 6px;
-      margin-top: 16px;
-      color: #555;
-      font-size: 1rem;
-    }
-    input[type="text"],
-    input[type="number"],
-    input[type="date"],
-    input[type="time"] {
-      width: 100%;
-      padding: 10px 12px;
-      font-size: 1rem;
-      border: 1.8px solid #ccc;
-      border-radius: 6px;
-      transition: border-color 0.3s;
-    }
-    input[type="text"]:focus,
-    input[type="number"]:focus,
-    input[type="date"]:focus,
-    input[type="time"]:focus {
-      border-color: #007bff;
-      outline: none;
-      box-shadow: 0 0 6px #007bffaa;
-    }
-    button {
-      width: 100%;
-      margin-top: 30px;
-      background-color: #007bff;
-      border: none;
-      color: white;
-      padding: 14px;
-      font-size: 1.1rem;
-      border-radius: 6px;
-      cursor: pointer;
-      transition: background-color 0.3s;
-      font-weight: 600;
-    }
-    button:hover {
-      background-color: #0056b3;
-    }
-    /* Responsive for small phones */
-    @media (max-width: 400px) {
-      form {
-        padding: 20px 16px;
-      }
-      label {
-        font-size: 0.9rem;
-      }
-      input[type="text"],
-      input[type="number"],
-      input[type="date"],
-      input[type="time"],
-      button {
-        font-size: 1rem;
-      }
-    }
+    /* ใส่ CSS ตามที่คุณมี */
   </style>
 </head>
 <body>
@@ -107,154 +24,78 @@
     <label for="car_no">เลขทะเบียนรถ:</label>
     <input id="car_no" name="car_no" list="car_no_list" type="text" required />
     <datalist id="car_no_list">
-    <option value="กระบะ TOYOTA ถท-7967">
-    <option value="กระบะ TOYOTA ฮว-7319">
-    <option value="กระบะ TOYOTA ฮย-5493">
-    <option value="กระบะ TOYOTA ฮท-381">
-    <option value="กระบะ TOYOTA ฮษ-1269">
-    <option value="กระบะ TOYOTA ฮษ-1270">
-    <option value="กระบะ TOYOTA ฮธ-5176">
-    <option value="กระบะ TOYOTA ฮษ-5184">
-    <option value="รถตู้ TOYOTA ฮท-3486">
-    <option value="สี่ล้อกลางโดยสาร ISUZU 40-1825">
-    <option value="หกล้อโดยสาร HINO 40-1909">
-    <option value="หกล้อบรรทุก HINO 83-9275">
-    <option value="หกล้อบรรทุก HINO 83-9276">
-    <option value="หกล้อบรรทุก HINO 83-1314">
-    <option value="หกล้อบรรทุก ISUZU 82-7047">
-    <option value="หกล้อบรรทุกมีเครน HINO 83-8101">
-    <option value="หกล้อบรรทุกมีเครน HINO 83-5956">
-    <option value="หกล้อบรรทุกมีเครน ISUZU 83-9211">
-  <!-- เพิ่มเลขทะเบียนรถที่ต้องการไว้ตรงนี้ -->
+      <!-- ใส่ option ตามเดิม -->
     </datalist>
 
     <label for="driver">คนขับรถ:</label>
     <input id="driver" name="driver" list="driver_list" type="text" required />
     <datalist id="driver_list">
-    <option value="พิพัฒน์ พวงทอง">
-    <option value="พรชัย พิระภาค">
-    <option value="เจนภพ สีหานู">
-    <option value="นัฐวุฒิ พวงทอง">
-    <option value="สมชาติ ดอกบัว">
-    <option value="ทนงศักดิ์ สว่างแก้ว">
-    <option value="สาธิต กุดสงค์">
-    <option value="วิรุฬห์ มิตะสีดา">
-    <option value="สุวัฒน์ ฟื้นตน">
-    <option value="อำนาจ ดอกบัว">
-    <option value="มาโนช แช่มรวย">
-    <option value="สุภาภรณ์ แก้วน้อย">
-    <option value="ณรงค์ ถาวร">
-    <option value="จิรพงษ์ กลีบมาลี">
-    <option value="ธนาชัย แก้วมณี">
-    <option value="รัตนชัย ไกรสำอางค์">
-    <option value="ศุภวัฒน์ ฤทธิเรือง">
+      <!-- ใส่ option ตามเดิม -->
     </datalist>
 
     <label for="start_station">สถานีต้นทาง:</label>
     <input id="start_station" name="start_station" list="start_station_list" type="text" required />
     <datalist id="start_station_list">
-    <option value="โรงงานไทรน้อย">
-    <option value="บ้านกลางเมือง">
-    <option value="ดุสิต">
-    <option value="เบญจสิริ">
-    <option value="โรงเรียนนานาชาติ">
-    <option value="สโคป ทองหล่อ">
-    <option value="แอทมายด์">
-    <option value="มัลเบอรี่ คอนโด">
-    <option value="มัลเบอรี่ วิลล่า">
-    <option value="โกดังวิลล่า">
-    <option value="วันเวลา">
-    <option value="พรอสคอนกรีต ราชบุรี">
-    <option value="แฮพพิแทท">
-    <option value="โตโยต้า สุขาภิบาล1">
-    <option value="MBM">
-    <option value="สหทรัพย์">
-    <option value="บ้านคุณบรรเจิด">
-    <option value="บ้านปิ่นเกล้า">
+      <!-- ใส่ option ตามเดิม -->
     </datalist>
 
     <label for="end_station">สถานีปลายทาง:</label>
     <input id="end_station" name="end_station" list="end_station_list" type="text" required />
     <datalist id="end_station_list">
-    <option value="โรงงานไทรน้อย">
-    <option value="บ้านกลางเมือง">
-    <option value="ดุสิต">
-    <option value="เบญจสิริ">
-    <option value="โรงเรียนนานาชาติ">
-    <option value="สโคป ทองหล่อ">
-    <option value="แอทมายด์">
-    <option value="มัลเบอรี่ คอนโด">
-    <option value="มัลเบอรี่ วิลล่า">
-    <option value="โกดังวิลล่า">
-    <option value="วันเวลา">
-    <option value="พรอสคอนกรีต ราชบุรี">
-    <option value="แฮพพิแทท">
-    <option value="โตโยต้า สุขาภิบาล1">
-    <option value="MBM">
-    <option value="สหทรัพย์">
-    <option value="บ้านคุณบรรเจิด">
-    <option value="บ้านปิ่นเกล้า">
+      <!-- ใส่ option ตามเดิม -->
     </datalist>
-    
 
-<button type="submit" class="btn btn-primary">
-  <span class="spinner-border spinner-border-sm me-2 d-none" role="status"></span>บันทึกข้อมูล</button>
-
+    <button type="submit">บันทึกข้อมูล</button>
   </form>
 
-<script>
-document.getElementById("form1").addEventListener("submit", function (e) {
-  e.preventDefault();
+  <script>
+    const proxyUrl = 'http://localhost:3000'; // เปลี่ยนเป็น URL proxy server จริงถ้า deploy แล้ว
 
-  const button = document.querySelector("button");
-  const spinner = button.querySelector(".spinner-border");
+    document.getElementById('form1').addEventListener('submit', async function (e) {
+      e.preventDefault();
 
-  button.disabled = true;
-  spinner.classList.remove("d-none"); // ✅ แสดง spinner
-  button.childNodes[1].textContent = "กำลังบันทึก..."; // ✅ แก้ข้อความถัดจาก spinner
+      const button = this.querySelector('button');
+      button.disabled = true;
+      button.textContent = "กำลังบันทึก...";
 
-  const data = {
-    date: document.getElementById("date").value,
-    timeStart: document.getElementById("timeStart").value,
-    start_mile: document.getElementById("start_mile").value,
-    car_no: document.getElementById("car_no").value,
-    driver: document.getElementById("driver").value,
-    start_station: document.getElementById("start_station").value,
-    end_station: document.getElementById("end_station").value
-  };
+      const data = {
+        date: document.getElementById('date').value,
+        timeStart: document.getElementById('timeStart').value,
+        start_mile: document.getElementById('start_mile').value,
+        car_no: document.getElementById('car_no').value,
+        driver: document.getElementById('driver').value,
+        start_station: document.getElementById('start_station').value,
+        end_station: document.getElementById('end_station').value
+      };
 
-  fetch("https://script.google.com/macros/s/AKfycbx5ax4uJ1E1t7LH7oBg2u_XAk19bh8OjqKkcVBoE17wbNzt8ndIgE0ICABxpuDwbasvbg/exec", {
-    method: "POST",
-    body: JSON.stringify({
-      action: "saveForm1",
-      data: data
-    }),
-    headers: {
-      "Content-Type": "application/json"
-    }
-  })
-  .then(res => res.json())
-  .then(response => {
-    if (response.status === "success") {
-      alert("บันทึกสำเร็จ! ไปยังหน้า 2");
-      window.location.href = "form2.html?row=" + response.row;
-    } else {
-      alert("เกิดข้อผิดพลาด: " + response.message);
-      button.disabled = false;
-      spinner.classList.add("d-none");
-      button.childNodes[1].textContent = "บันทึกข้อมูล";
-    }
-  })
-  .catch(error => {
-    alert("Error: " + error);
-    button.disabled = false;
-    spinner.classList.add("d-none");
-    button.childNodes[1].textContent = "บันทึกข้อมูล";
-  });
-});
+      try {
+        const res = await fetch(proxyUrl + '/update', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            action: 'saveForm1',
+            data: data
+          })
+        });
+        const response = await res.json();
 
-</script>
-
+        if (response.status === 'success') {
+          alert('บันทึกสำเร็จ! ไปยังหน้า 2');
+          // เก็บ start_mile ไว้ localStorage เพื่อใช้ใน form2
+          localStorage.setItem('start_mile', data.start_mile);
+          window.location.href = 'form2.html?row=' + response.row;
+        } else {
+          alert('เกิดข้อผิดพลาด: ' + response.message);
+          button.disabled = false;
+          button.textContent = "บันทึกข้อมูล";
+        }
+      } catch (error) {
+        alert('Error: ' + error);
+        button.disabled = false;
+        button.textContent = "บันทึกข้อมูล";
+      }
+    });
+  </script>
 
 </body>
 </html>
