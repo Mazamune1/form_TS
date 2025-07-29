@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ฟอร์มบันทึกข้อมูลเดินรถ (ตอนที่ 2)</title>
+  <style>
+    /* Reset เบื้องต้น */
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 20px;
+      background: #f9f9f9;
+      color: #333;
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 24px;
+      color: #222;
+    }
+    form {
+      max-width: 480px;
+      margin: 0 auto;
+      background: white;
+      padding: 24px;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgb(0 0 0 / 0.1);
+    }
+    label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 6px;
+      margin-top: 16px;
+      color: #555;
+      font-size: 1rem;
+    }
+    input[type="text"],
+    input[type="number"],
+    input[type="date"],
+    input[type="time"],
+    textarea {
+      width: 100%;
+      padding: 10px 12px;
+      font-size: 1rem;
+      border: 1.8px solid #ccc;
+      border-radius: 6px;
+      transition: border-color 0.3s;
+      resize: vertical;
+      min-height: 60px;
+    }
+    input[type="text"]:focus,
+    input[type="number"]:focus,
+    input[type="date"]:focus,
+    input[type="time"]:focus,
+    textarea:focus {
+      border-color: #007bff;
+      outline: none;
+      box-shadow: 0 0 6px #007bffaa;
+    }
+    input[readonly] {
+      background-color: #e9ecef;
+      cursor: not-allowed;
+    }
+    button {
+      width: 100%;
+      margin-top: 30px;
+      background-color: #007bff;
+      border: none;
+      color: white;
+      padding: 14px;
+      font-size: 1.1rem;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      font-weight: 600;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    /* Responsive for small phones */
+    @media (max-width: 400px) {
+      form {
+        padding: 20px 16px;
+      }
+      label {
+        font-size: 0.9rem;
+      }
+      input[type="text"],
+      input[type="number"],
+      input[type="date"],
+      input[type="time"],
+      textarea,
+      button {
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<h2>ฟอร์มบันทึกข้อมูลเดินรถ (ตอนที่ 2)</h2>
+
+<form id="form2" autocomplete="off">
+  <input type="hidden" id="row" name="row">
+
+  <label for="end_time">เวลาสิ้นสุด:</label>
+  <input type="time" id="end_time" name="end_time" required />
+
+  <label for="end_mile">ไมล์ปลายทาง:</label>
+  <input type="number" id="end_mile" name="end_mile" required />
+
+  <label for="total_distance">ระยะทางรวม:</label>
+  <input type="number" id="total_distance" name="total_distance" readonly />
+
+  <label for="note">หมายเหตุ:</label>
+  <textarea id="note" name="note" rows="4"></textarea>
+
+  <button type="submit">บันทึกข้อมูล</button>
+</form>
+
+<script>
+  let startMile = 0;
+  let latestRow = 0;
+
+  // ดึงแถวล่าสุดจาก proxy server
+  async function fetchLatestRow() {
+    try {
+      const res = await fetch('http://localhost:3000/latest-row');
+      const data = await res.json();
+      if (data.status === 'success') {
+        latestRow = data.row;
+        document.getElementById('row').value = latestRow;
+      } else {
+        alert("ไม่พบข้อมูลแถวล่าสุด");
+      }
+    } catch (error) {
+      alert("เกิดข้อผิดพลาดในการโหลดข้อมูล: " + error.message);
+    }
+  }
+
+  // ดึงค่า start_mile จาก localStorage (สมมติเก็บไว้ใน form1)
+  function loadStartMile() {
+    const sm = localStorage.getItem('start_mile');
+    startMile = sm ? Number(sm) : 0;
+  }
+
+  // คำนวณระยะทางรวมเมื่อกรอกไมล์ปลายทาง
+  document.getElementById('end_mile').addEventListener('input', function() {
+    const endMile = Number(this.value);
+    const distance = endMile - startMile;
+    document.getElementById('total_distance').value = distance > 0 ? distance : 0;
+  });
+
+  // ส่งข้อมูล form2 พร้อมแถวล่าสุด
+  document.getElementById('form2').addEventListener('submit', function(event) {
+    event.preventDefault();
+    const formData = new FormData(this);
+    const data = Object.fromEntries(formData.entries());
+    data.row = latestRow; // ใส่เลขแถวให้ตรง
+
+    fetch('http://localhost:3000/update', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    })
+    .then(res => res.json())
+    .then(result => {
+      if(result.status === 'success'){
+        alert('บันทึกข้อมูลหน้า 2 สำเร็จ');
+        // กลับไปหน้า form1
+        window.location.href = 'form1.html';
+      } else {
+        alert('เกิดข้อผิดพลาด: ' + (result.message || 'ไม่ทราบสาเหตุ'));
+      }
+    })
+    .catch(err => alert('เกิดข้อผิดพลาดในการส่งข้อมูล: ' + err.message));
+  });
+
+  // โหลดข้อมูลเริ่มต้น
+  loadStartMile();
+  fetchLatestRow();
+
+</script>
+
+</body>
+</html>
