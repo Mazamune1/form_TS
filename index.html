@@ -26,17 +26,26 @@
   document.querySelector("form").addEventListener("submit", function (e) {
   e.preventDefault();
 
-  const formData = new FormData(e.target);
-  const params = new URLSearchParams();
+  const formData = {
+    date: document.getElementById("date").value,
+    start_time: document.getElementById("start_time").value,
+    start_mile: document.getElementById("start_mile").value,
+    plate_no: document.getElementById("plate_no").value,
+    driver: document.getElementById("driver").value,
+    start_station: document.getElementById("start_station").value,
+    end_station: document.getElementById("end_station").value,
+    end_time: document.getElementById("end_time").value,
+    end_mile: document.getElementById("end_mile").value,
+    total_distance: document.getElementById("total_distance").value,
+    note: document.getElementById("note").value
+  };
 
-  for (const pair of formData.entries()) {
-    params.append(pair[0], pair[1]);
-  }
-
-  fetch("https://script.google.com/macros/s/AKfycbzQfTZcGQDWEWHzupJr9xXOv0NAUpngSjFQpoaM7hqJN50JNLWrN6SDH30mlpCyqQy-zw/exec", {
+  fetch("https://script.google.com/macros/s/AKfycbzVfsuVKC-dHWWLfKS4ql5GrnzIH4ReTOErE4PPbjdDdsX59Xmtgd0tAbavYltDnNK6cA/exec", {
     method: "POST",
-    body: params,
-    // **ไม่ต้องใส่ headers จะไม่ trigger preflight**
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(formData)
   })
     .then((res) => res.json())
     .then((data) => {
@@ -44,9 +53,10 @@
     })
     .catch((err) => {
       console.error(err);
-      alert("เกิดข้อผิดพลาด");
+      alert("ส่งข้อมูลไม่สำเร็จ");
     });
 });
+
 
   </script>
 </body>
